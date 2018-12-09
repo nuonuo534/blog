@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>事件的节流（throttle）与防抖（debounce） | nuonuo Blog</title>
+    <meta name="description" content="个人笔记库">
+    
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.4d701dfb.css" as="style"><link rel="preload" href="/blog/assets/js/app.607c1ba4.js" as="script"><link rel="preload" href="/blog/assets/js/21.4301888d.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.66ca43b4.js"><link rel="prefetch" href="/blog/assets/js/11.1bda51a4.js"><link rel="prefetch" href="/blog/assets/js/12.7e024983.js"><link rel="prefetch" href="/blog/assets/js/13.0fc94cd6.js"><link rel="prefetch" href="/blog/assets/js/14.68d7366c.js"><link rel="prefetch" href="/blog/assets/js/15.6e0a8222.js"><link rel="prefetch" href="/blog/assets/js/16.86171f67.js"><link rel="prefetch" href="/blog/assets/js/17.e8b36955.js"><link rel="prefetch" href="/blog/assets/js/18.151c5a75.js"><link rel="prefetch" href="/blog/assets/js/19.18e3fe39.js"><link rel="prefetch" href="/blog/assets/js/2.5ae90992.js"><link rel="prefetch" href="/blog/assets/js/20.6cc05ee2.js"><link rel="prefetch" href="/blog/assets/js/22.0c9b437e.js"><link rel="prefetch" href="/blog/assets/js/23.714c19d9.js"><link rel="prefetch" href="/blog/assets/js/24.c1c693f3.js"><link rel="prefetch" href="/blog/assets/js/25.91953ca4.js"><link rel="prefetch" href="/blog/assets/js/26.b27a21d1.js"><link rel="prefetch" href="/blog/assets/js/3.c5474b01.js"><link rel="prefetch" href="/blog/assets/js/4.44cc47d8.js"><link rel="prefetch" href="/blog/assets/js/5.aad341a0.js"><link rel="prefetch" href="/blog/assets/js/6.6282afad.js"><link rel="prefetch" href="/blog/assets/js/7.810257e9.js"><link rel="prefetch" href="/blog/assets/js/8.c5be16c8.js"><link rel="prefetch" href="/blog/assets/js/9.78694199.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.4d701dfb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><!----> <span class="site-name">nuonuo Blog</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/" class="nav-link">首页</a></div><div class="nav-item"><a href="/blog/utils/" class="nav-link">方法库</a></div><div class="nav-item"><a href="/blog/property/" class="nav-link router-link-active">性能优化</a></div><div class="nav-item"><a href="/blog/interview/" class="nav-link">题目整理</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog/" class="nav-link">首页</a></div><div class="nav-item"><a href="/blog/utils/" class="nav-link">方法库</a></div><div class="nav-item"><a href="/blog/property/" class="nav-link router-link-active">性能优化</a></div><div class="nav-item"><a href="/blog/interview/" class="nav-link">题目整理</a></div> <!----></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>前端性能优化</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/blog/property/" class="sidebar-link">前端性能优化原理与实践</a></li><li><a href="/blog/property/EventLoop.html" class="sidebar-link">Event Loop 与异步更新策略</a></li><li><a href="/blog/property/throttle-debounce.html" class="active sidebar-link">事件的节流（throttle）与防抖（debounce）</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/property/throttle-debounce.html#“节流”与“防抖”的本质" class="sidebar-link">“节流”与“防抖”的本质</a></li><li class="sidebar-sub-header"><a href="/blog/property/throttle-debounce.html#throttle" class="sidebar-link">Throttle</a></li><li class="sidebar-sub-header"><a href="/blog/property/throttle-debounce.html#debounce" class="sidebar-link">Debounce</a></li><li class="sidebar-sub-header"><a href="/blog/property/throttle-debounce.html#用-throttle-来优化-debounce" class="sidebar-link">用 Throttle 来优化 Debounce</a></li></ul></li><li><a href="/blog/property/Lazy-Load懒加载.html" class="sidebar-link">Lazy-Load懒加载</a></li><li><a href="/blog/property/image.html" class="sidebar-link">图片优化——质量与性能的博弈</a></li><li><a href="/blog/property/webstorage.html" class="sidebar-link">本地存储——从 Cookie 到 Web Storage、IndexDB</a></li><li><a href="/blog/property/cache.html" class="sidebar-link">浏览器缓存机制介绍与缓存策略剖析</a></li><li><a href="/blog/property/CDN.html" class="sidebar-link">CDN</a></li><li><a href="/blog/property/SSR.html" class="sidebar-link">服务端渲染</a></li><li><a href="/blog/property/webpack-GZIP.html" class="sidebar-link">webpack性能调优与Gzip原理</a></li><li><a href="/blog/property/Performance.html" class="sidebar-link">Performance、LightHouse 与性能 API</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h1 id="事件的节流（throttle）与防抖（debounce）"><a href="#事件的节流（throttle）与防抖（debounce）" aria-hidden="true" class="header-anchor">#</a> 事件的节流（throttle）与防抖（debounce）</h1> <p>scroll 事件，resize 事件、鼠标事件（比如 mousemove、mouseover 等）、键盘事件（keyup、keydown 等）都存在被频繁触发的风险。</p> <p>频繁触发回调导致的大量计算会引发页面的抖动甚至卡顿。为了规避这种情况，我们需要一些手段来控制事件被触发的频率。就是在这样的背景下，throttle（事件节流）和 debounce（事件防抖）出现了。</p> <h2 id="“节流”与“防抖”的本质"><a href="#“节流”与“防抖”的本质" aria-hidden="true" class="header-anchor">#</a> “节流”与“防抖”的本质</h2> <p>这两个东西都以<strong>闭包</strong>的形式存在。</p> <p>它们通过对事件对应的回调函数进行包裹、以自由变量的形式缓存时间信息，最后用 setTimeout 来控制事件的触发频率。</p> <h2 id="throttle"><a href="#throttle" aria-hidden="true" class="header-anchor">#</a> Throttle</h2> <p>throttle 的中心思想在于：在某段时间内，不管你触发了多少次回调，我都只认第一次，并在计时结束时给予响应。</p> <p>所谓的“节流”，是通过在一段时间内<strong>无视后来产生的回调请求</strong>来实现的。只要一位客人叫了车，司机就会为他开启计时器，一定的时间内，后面需要乘车的客人都得排队上这一辆车，谁也无法叫到更多的车。</p> <p>对应到实际的交互上是一样一样的：每当用户触发了一次 scroll 事件，我们就为这个触发操作开启计时器。一段时间内，后续所有的 scroll 事件都会被当作“一辆车的乘客”——它们无法触发新的 scroll 回调。直到“一段时间”到了，第一次触发的 scroll 事件对应的回调才会执行，而“一段时间内”触发的后续的 scroll 回调都会被节流阀无视掉。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// fn是我们需要包装的事件回调, interval是时间间隔的阈值</span>
+<span class="token keyword">function</span> <span class="token function">throttle</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> interval<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// last为上一次触发回调的时间</span>
+  <span class="token keyword">let</span> last <span class="token operator">=</span> <span class="token number">0</span>
+  
+  <span class="token comment">// 将throttle处理结果当作函数返回</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 保留调用时的this上下文</span>
+      <span class="token keyword">let</span> context <span class="token operator">=</span> <span class="token keyword">this</span>
+      <span class="token comment">// 保留调用时传入的参数</span>
+      <span class="token keyword">let</span> args <span class="token operator">=</span> arguments
+      <span class="token comment">// 记录本次触发回调的时间</span>
+      <span class="token keyword">let</span> now <span class="token operator">=</span> <span class="token operator">+</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      
+      <span class="token comment">// 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>now <span class="token operator">-</span> last <span class="token operator">&gt;=</span> interval<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 如果时间间隔大于我们设定的时间间隔阈值，则执行回调</span>
+          last <span class="token operator">=</span> now<span class="token punctuation">;</span>
+          fn<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 用throttle来包装scroll的回调</span>
+document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'scroll'</span><span class="token punctuation">,</span> <span class="token function">throttle</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'触发了滚动事件'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="debounce"><a href="#debounce" aria-hidden="true" class="header-anchor">#</a> Debounce</h2> <p>防抖的中心思想在于：我会等你到底。在某段时间内，不管你触发了多少次回调，我都只认最后一次。</p> <p>在throttle的逻辑里，“第一个人说了算”，它只为第一个乘客计时，时间到了就执行回调。而 debounce 认为，“最后一个人说了算”，debounce 会为每一个新乘客设定新的定时器。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// fn是我们需要包装的事件回调, delay是每次推迟执行的等待时间</span>
+<span class="token keyword">function</span> <span class="token function">debounce</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> delay<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 定时器</span>
+  <span class="token keyword">let</span> timer <span class="token operator">=</span> <span class="token keyword">null</span>
+  
+  <span class="token comment">// 将debounce处理结果当作函数返回</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 保留调用时的this上下文</span>
+    <span class="token keyword">let</span> context <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token comment">// 保留调用时传入的参数</span>
+    <span class="token keyword">let</span> args <span class="token operator">=</span> arguments
+
+    <span class="token comment">// 每次事件被触发时，都去清除之前的旧定时器</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 设立新定时器</span>
+    timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      fn<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 用debounce来包装scroll的回调</span>
+document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'scroll'</span><span class="token punctuation">,</span> <span class="token function">debounce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'触发了滚动事件'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="用-throttle-来优化-debounce"><a href="#用-throttle-来优化-debounce" aria-hidden="true" class="header-anchor">#</a> 用 Throttle 来优化 Debounce</h2> <p>debounce 的问题在于它“太有耐心了”。试想，如果用户的操作十分频繁——他每次都不等 debounce 设置的 delay 时间结束就进行下一次操作，于是每次 debounce 都为该用户重新生成定时器，回调函数被延迟了不计其数次。频繁的延迟会导致用户迟迟得不到响应，用户同样会产生“这个页面卡死了”的观感。</p> <p>为了避免弄巧成拙，我们需要借力 throttle 的思想，打造一个“有底线”的 debounce——等你可以，但我有我的原则：delay 时间内，我可以为你重新生成定时器；但只要delay的时间到了，我必须要给用户一个响应。这个 throttle 与 debounce “合体”思路，已经被很多成熟的前端库应用到了它们的加强版 throttle 函数的实现中：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// fn是我们需要包装的事件回调, delay是时间间隔的阈值</span>
+<span class="token keyword">function</span> <span class="token function">throttle</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> delay<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// last为上一次触发回调的时间, timer是定时器</span>
+  <span class="token keyword">let</span> last <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> timer <span class="token operator">=</span> <span class="token keyword">null</span>
+  <span class="token comment">// 将throttle处理结果当作函数返回</span>
+  
+  <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token comment">// 保留调用时的this上下文</span>
+    <span class="token keyword">let</span> context <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token comment">// 保留调用时传入的参数</span>
+    <span class="token keyword">let</span> args <span class="token operator">=</span> arguments
+    <span class="token comment">// 记录本次触发回调的时间</span>
+    <span class="token keyword">let</span> now <span class="token operator">=</span> <span class="token operator">+</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token comment">// 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>now <span class="token operator">-</span> last <span class="token operator">&lt;</span> delay<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 如果时间间隔小于我们设定的时间间隔阈值，则为本次触发操作设立一个新的定时器</span>
+       <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span>
+       timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          last <span class="token operator">=</span> now
+          fn<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 如果时间间隔超出了我们设定的时间间隔阈值，那就不等了，无论如何要反馈给用户一次响应</span>
+        last <span class="token operator">=</span> now
+        fn<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 用新的throttle包装scroll的回调</span>
+document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'scroll'</span><span class="token punctuation">,</span> <span class="token function">throttle</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'触发了滚动事件'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/blog/property/EventLoop.html" class="prev">
+          Event Loop 与异步更新策略
+        </a></span> <span class="next"><a href="/blog/property/Lazy-Load懒加载.html">
+          Lazy-Load懒加载
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/blog/assets/js/21.4301888d.js" defer></script><script src="/blog/assets/js/app.607c1ba4.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>webpack性能调优与Gzip原理 | nuonuo Blog</title>
+    <meta name="description" content="个人笔记库">
+    
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.4d701dfb.css" as="style"><link rel="preload" href="/blog/assets/js/app.607c1ba4.js" as="script"><link rel="preload" href="/blog/assets/js/22.0c9b437e.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.66ca43b4.js"><link rel="prefetch" href="/blog/assets/js/11.1bda51a4.js"><link rel="prefetch" href="/blog/assets/js/12.7e024983.js"><link rel="prefetch" href="/blog/assets/js/13.0fc94cd6.js"><link rel="prefetch" href="/blog/assets/js/14.68d7366c.js"><link rel="prefetch" href="/blog/assets/js/15.6e0a8222.js"><link rel="prefetch" href="/blog/assets/js/16.86171f67.js"><link rel="prefetch" href="/blog/assets/js/17.e8b36955.js"><link rel="prefetch" href="/blog/assets/js/18.151c5a75.js"><link rel="prefetch" href="/blog/assets/js/19.18e3fe39.js"><link rel="prefetch" href="/blog/assets/js/2.5ae90992.js"><link rel="prefetch" href="/blog/assets/js/20.6cc05ee2.js"><link rel="prefetch" href="/blog/assets/js/21.4301888d.js"><link rel="prefetch" href="/blog/assets/js/23.714c19d9.js"><link rel="prefetch" href="/blog/assets/js/24.c1c693f3.js"><link rel="prefetch" href="/blog/assets/js/25.91953ca4.js"><link rel="prefetch" href="/blog/assets/js/26.b27a21d1.js"><link rel="prefetch" href="/blog/assets/js/3.c5474b01.js"><link rel="prefetch" href="/blog/assets/js/4.44cc47d8.js"><link rel="prefetch" href="/blog/assets/js/5.aad341a0.js"><link rel="prefetch" href="/blog/assets/js/6.6282afad.js"><link rel="prefetch" href="/blog/assets/js/7.810257e9.js"><link rel="prefetch" href="/blog/assets/js/8.c5be16c8.js"><link rel="prefetch" href="/blog/assets/js/9.78694199.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.4d701dfb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><!----> <span class="site-name">nuonuo Blog</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/" class="nav-link">首页</a></div><div class="nav-item"><a href="/blog/utils/" class="nav-link">方法库</a></div><div class="nav-item"><a href="/blog/property/" class="nav-link router-link-active">性能优化</a></div><div class="nav-item"><a href="/blog/interview/" class="nav-link">题目整理</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog/" class="nav-link">首页</a></div><div class="nav-item"><a href="/blog/utils/" class="nav-link">方法库</a></div><div class="nav-item"><a href="/blog/property/" class="nav-link router-link-active">性能优化</a></div><div class="nav-item"><a href="/blog/interview/" class="nav-link">题目整理</a></div> <!----></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>前端性能优化</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/blog/property/" class="sidebar-link">前端性能优化原理与实践</a></li><li><a href="/blog/property/EventLoop.html" class="sidebar-link">Event Loop 与异步更新策略</a></li><li><a href="/blog/property/throttle-debounce.html" class="sidebar-link">事件的节流（throttle）与防抖（debounce）</a></li><li><a href="/blog/property/Lazy-Load懒加载.html" class="sidebar-link">Lazy-Load懒加载</a></li><li><a href="/blog/property/image.html" class="sidebar-link">图片优化——质量与性能的博弈</a></li><li><a href="/blog/property/webstorage.html" class="sidebar-link">本地存储——从 Cookie 到 Web Storage、IndexDB</a></li><li><a href="/blog/property/cache.html" class="sidebar-link">浏览器缓存机制介绍与缓存策略剖析</a></li><li><a href="/blog/property/CDN.html" class="sidebar-link">CDN</a></li><li><a href="/blog/property/SSR.html" class="sidebar-link">服务端渲染</a></li><li><a href="/blog/property/webpack-GZIP.html" class="active sidebar-link">webpack性能调优与Gzip原理</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/property/webpack-GZIP.html#webpack性能调优与gzip原理" class="sidebar-link">webpack性能调优与Gzip原理</a></li><li class="sidebar-sub-header"><a href="/blog/property/webpack-GZIP.html#webpack-优化方案" class="sidebar-link">webpack 优化方案</a></li><li class="sidebar-sub-header"><a href="/blog/property/webpack-GZIP.html#gzip-压缩原理" class="sidebar-link">Gzip 压缩原理</a></li></ul></li><li><a href="/blog/property/Performance.html" class="sidebar-link">Performance、LightHouse 与性能 API</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h2 id="webpack性能调优与gzip原理"><a href="#webpack性能调优与gzip原理" aria-hidden="true" class="header-anchor">#</a> webpack性能调优与Gzip原理</h2> <h3 id="webpack-的性能瓶颈"><a href="#webpack-的性能瓶颈" aria-hidden="true" class="header-anchor">#</a> webpack 的性能瓶颈</h3> <ul><li>webpack的构建过程太花时间</li> <li>webpack打包的结果体积太大</li></ul> <h2 id="webpack-优化方案"><a href="#webpack-优化方案" aria-hidden="true" class="header-anchor">#</a> webpack 优化方案</h2> <h3 id="构建过程提速策略"><a href="#构建过程提速策略" aria-hidden="true" class="header-anchor">#</a> 构建过程提速策略</h3> <h4 id="不要让-loader-做太多事情——以-babel-loader-为例"><a href="#不要让-loader-做太多事情——以-babel-loader-为例" aria-hidden="true" class="header-anchor">#</a> 不要让 loader 做太多事情——以 babel-loader 为例</h4> <p>用 include 或 exclude 来帮我们避免不必要的转译，比如 webpack 官方在介绍 babel-loader 时给出的示例：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      test<span class="token punctuation">:</span> <span class="token regex">/\.js$/</span><span class="token punctuation">,</span>
+      exclude<span class="token punctuation">:</span> <span class="token regex">/(node_modules|bower_components)/</span><span class="token punctuation">,</span>
+      use<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        loader<span class="token punctuation">:</span> <span class="token string">'babel-loader'</span><span class="token punctuation">,</span>
+        options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          presets<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'@babel/preset-env'</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>这段代码帮我们规避了对庞大的 node_modules 文件夹或者 bower_components 文件夹的处理。但通过限定文件范围带来的性能提升是有限的。除此之外，如果我们选择开启缓存将转译结果缓存至文件系统，则至少可以将 babel-loader 的工作效率提升两倍。要做到这点，我们只需要为 loader 增加相应的参数设定：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>loader<span class="token punctuation">:</span> <span class="token string">'babel-loader?cacheDirectory=true'</span> 
+</code></pre></div><h4 id="不要放过第三方库"><a href="#不要放过第三方库" aria-hidden="true" class="header-anchor">#</a> 不要放过第三方库</h4> <p>DllPlugin 是基于 Windows 动态链接库（dll）的思想被创作出来的。这个插件会把第三方库单独打包到一个文件中，这个文件就是一个单纯的依赖库。<strong>这个依赖库不会跟着你的业务代码一起被重新打包，只有当依赖自身发生版本变化时才会重新打包</strong>。</p> <p>用 DllPlugin 处理文件，要分两步走：</p> <ul><li>基于 dll 专属的配置文件，打包 dll 库</li> <li>基于 webpack.config.js 文件，打包业务代码</li></ul> <p>以一个基于 React 的简单项目为例，我们的 dll 的配置文件可以编写如下：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    entry<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 依赖的库数组</span>
+      vendor<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token string">'prop-types'</span><span class="token punctuation">,</span>
+        <span class="token string">'babel-polyfill'</span><span class="token punctuation">,</span>
+        <span class="token string">'react'</span><span class="token punctuation">,</span>
+        <span class="token string">'react-dom'</span><span class="token punctuation">,</span>
+        <span class="token string">'react-router-dom'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      filename<span class="token punctuation">:</span> <span class="token string">'[name].js'</span><span class="token punctuation">,</span>
+      library<span class="token punctuation">:</span> <span class="token string">'[name]_[hash]'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>DllPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token comment">//打包出vendor.js</span>
+        <span class="token comment">// DllPlugin的name属性需要和libary保持一致</span>
+        name<span class="token punctuation">:</span> <span class="token string">'[name]_[hash]'</span><span class="token punctuation">,</span>
+        path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">,</span> <span class="token string">'[name]-manifest.json'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token comment">// context需要和webpack.config.js保持一致</span>
+        context<span class="token punctuation">:</span> __dirname<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>随后，我们只需在 webpack.config.js 里针对 dll 稍作配置：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  mode<span class="token punctuation">:</span> <span class="token string">'production'</span><span class="token punctuation">,</span>
+  <span class="token comment">// 编译入口</span>
+  entry<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    main<span class="token punctuation">:</span> <span class="token string">'./src/index.js'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 目标文件</span>
+  output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist/'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    filename<span class="token punctuation">:</span> <span class="token string">'[name].js'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// dll相关配置</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>DllReferencePlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      context<span class="token punctuation">:</span> __dirname<span class="token punctuation">,</span>
+      <span class="token comment">// manifest就是我们第一步中打包出来的json文件</span>
+      manifest<span class="token punctuation">:</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./dist/vendor-manifest.json'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//基于 dll 的 webpack 构建过程优化</span>
+</code></pre></div><h4 id="happypack——将-loader-由单进程转为多进程"><a href="#happypack——将-loader-由单进程转为多进程" aria-hidden="true" class="header-anchor">#</a> Happypack——将 loader 由单进程转为多进程</h4> <p>webpack 是单线程的,Happypack 会充分释放 CPU 在多核并发方面的优势，帮我们把任务分解给多个子进程去并发执行，大大提升打包效率。</p> <p>把对 loader 的配置转移到 HappyPack 中去就好，我们可以手动告诉 HappyPack 我们需要多少个并发的进程：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">const</span> HappyPack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'happypack'</span><span class="token punctuation">)</span>
+<span class="token comment">// 手动创建进程池</span>
+<span class="token keyword">const</span> happyThreadPool <span class="token operator">=</span>  HappyPack<span class="token punctuation">.</span><span class="token function">ThreadPool</span><span class="token punctuation">(</span><span class="token punctuation">{</span> size<span class="token punctuation">:</span> os<span class="token punctuation">.</span><span class="token function">cpus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token operator">...</span>
+      <span class="token punctuation">{</span>
+        test<span class="token punctuation">:</span> <span class="token regex">/\.js$/</span><span class="token punctuation">,</span>
+        <span class="token comment">// 问号后面的查询参数指定了处理这类文件的HappyPack实例的名字</span>
+        loader<span class="token punctuation">:</span> <span class="token string">'happypack/loader?id=happyBabel'</span><span class="token punctuation">,</span>
+        <span class="token operator">...</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token operator">...</span>
+    <span class="token keyword">new</span> <span class="token class-name">HappyPack</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token comment">// 这个HappyPack的“名字”就叫做happyBabel，和楼上的查询参数遥相呼应</span>
+      id<span class="token punctuation">:</span> <span class="token string">'happyBabel'</span><span class="token punctuation">,</span>
+      <span class="token comment">// 指定进程池</span>
+      threadPool<span class="token punctuation">:</span> happyThreadPool<span class="token punctuation">,</span>
+      loaders<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'babel-loader?cacheDirectory'</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="构建结果体积压缩"><a href="#构建结果体积压缩" aria-hidden="true" class="header-anchor">#</a> 构建结果体积压缩</h3> <h4 id="文件结构可视化，找出导致体积过大的原因"><a href="#文件结构可视化，找出导致体积过大的原因" aria-hidden="true" class="header-anchor">#</a> 文件结构可视化，找出导致体积过大的原因</h4> <p>非常好用的包组成可视化工具——<a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fwebpack-bundle-analyzer" target="_blank" rel="noopener noreferrer">webpack-bundle-analyzer<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">const</span> BundleAnalyzerPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack-bundle-analyzer'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>BundleAnalyzerPlugin<span class="token punctuation">;</span>
+ 
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token keyword">new</span> <span class="token class-name">BundleAnalyzerPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="拆分资源"><a href="#拆分资源" aria-hidden="true" class="header-anchor">#</a> 拆分资源</h4> <h4 id="删除冗余代码"><a href="#删除冗余代码" aria-hidden="true" class="header-anchor">#</a> 删除冗余代码</h4> <p>一个比较典型的应用，就是 <code>Tree-Shaking</code>。 基于 import/export 语法，Tree-Shaking 可以在编译的过程中获悉哪些模块并没有真正被使用，这些没用的代码，在最后打包的时候会被去除。</p> <p>Tree-Shaking 的针对性很强，它更适合用来处理模块级别的冗余代码。至于<strong>粒度更细</strong>的冗余代码的去除，往往会被整合进 JS 或 CSS 的压缩或分离过程中。</p> <p>这里我们以当下接受度较高的 UglifyJsPlugin 为例，看一下如何在压缩过程中对碎片化的冗余代码（如 console 语句、注释等）进行自动化删除：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">const</span> UglifyJsPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'uglifyjs-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+ plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+   <span class="token keyword">new</span> <span class="token class-name">UglifyJsPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+     <span class="token comment">// 允许并发</span>
+     parallel<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+     <span class="token comment">// 开启缓存</span>
+     cache<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+     compress<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+       <span class="token comment">// 删除所有的console语句    </span>
+       drop_console<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+       <span class="token comment">// 把使用多次的静态值自动定义为变量</span>
+       reduce_vars<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+     <span class="token punctuation">}</span><span class="token punctuation">,</span>
+     output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+       <span class="token comment">// 不保留注释</span>
+       comment<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+       <span class="token comment">// 使输出的代码尽可能紧凑</span>
+       beautify<span class="token punctuation">:</span> <span class="token boolean">false</span>
+     <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span><span class="token punctuation">)</span>
+ <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>这段手动引入 UglifyJsPlugin 的代码其实是 webpack3 的用法，webpack4 现在已经默认使用 uglifyjs-webpack-plugin 对代码做压缩了——在 webpack4 中，我们是通过配置 optimization.minimize 与 optimization.minimizer 来自定义压缩相关的操作的。</p> <h4 id="按需加载"><a href="#按需加载" aria-hidden="true" class="header-anchor">#</a> 按需加载</h4> <ul><li>一次不加载完所有的文件内容，只加载此刻需要用到的那部分（会提前做拆分）</li> <li>当需要更多内容时，再对用到的内容进行即时加载</li></ul> <p>当我们不需要按需加载的时候，我们的代码是这样的：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> BugComponent <span class="token keyword">from</span> <span class="token string">'../pages/BugComponent'</span>
+<span class="token operator">...</span>
+<span class="token operator">&lt;</span>Route path<span class="token operator">=</span><span class="token string">&quot;/bug&quot;</span> component<span class="token operator">=</span><span class="token punctuation">{</span>BugComponent<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+</code></pre></div><p>首先 webpack 的配置文件要走起来：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'/../dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    filename<span class="token punctuation">:</span> <span class="token string">'app.js'</span><span class="token punctuation">,</span>
+    publicPath<span class="token punctuation">:</span> defaultSettings<span class="token punctuation">.</span>publicPath<span class="token punctuation">,</span>
+    <span class="token comment">// 指定 chunkFilename</span>
+    chunkFilename<span class="token punctuation">:</span> <span class="token string">'[name].[chunkhash:5].chunk.js'</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre></div><p>路由处的代码也要做一下配合：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">const</span> getComponent <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>location<span class="token punctuation">,</span> cb<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  require<span class="token punctuation">.</span><span class="token function">ensure</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>require<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">cb</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../pages/BugComponent'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'bug'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token operator">...</span>
+<span class="token operator">&lt;</span>Route path<span class="token operator">=</span><span class="token string">&quot;/bug&quot;</span> getComponent<span class="token operator">=</span><span class="token punctuation">{</span>getComponent<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+</code></pre></div><p>核心方法：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>require<span class="token punctuation">.</span><span class="token function">ensure</span><span class="token punctuation">(</span>dependencies<span class="token punctuation">,</span> callback<span class="token punctuation">,</span> chunkName<span class="token punctuation">)</span>
+</code></pre></div><p>这是一个异步的方法，webpack 在打包时，BugComponent 会被单独打成一个文件，只有在我们跳转 bug 这个路由的时候，这个异步方法的回调才会生效，才会真正地去获取 BugComponent 的内容。 这就是按需加载。 React-Router4 用 Code-Splitting 替换掉了楼上这个操作 。</p> <h2 id="gzip-压缩原理"><a href="#gzip-压缩原理" aria-hidden="true" class="header-anchor">#</a> Gzip 压缩原理</h2> <p>开启 Gzip，request headers 中加上这么一句：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>accept<span class="token operator">-</span>encoding<span class="token punctuation">:</span>gzip
+</code></pre></div><p>HTTP 压缩是一种内置到网页服务器和网页客户端中以改进传输速度和带宽利用率的方式。在使用 HTTP 压缩的情况下，HTTP 数据在从服务器发送前就已压缩：兼容的浏览器将在下载所需的格式前宣告支持何种方法给服务器；不支持压缩方法的浏览器将下载未经压缩的数据。最常见的压缩方案包括 Gzip 和 Deflate。</p> <p><strong>HTTP 压缩就是以缩小体积为目的，对 HTTP 内容进行重新编码的过程</strong></p> <p>项目不是极端迷你的超小型文件,都建议你试试 Gzip。 压缩 Gzip，服务端要花时间；解压 Gzip，浏览器要花时间。 实践证明，这种情况下压缩和解压带来的时间开销相对于传输过程中节省下的时间开销来说，可以说是微不足道的。 Gzip 并不保证针对每一个文件的压缩都会使其变小。</p> <p>Gzip 压缩背后的原理，是在一个文本文件中找出一些重复出现的字符串、临时替换它们，从而使整个文件变小。根据这个原理，文件中代码的重复率越高，那么压缩的效率就越高，使用 Gzip 的收益也就越大。反之亦然。 可以理解为我们以服务器压缩的时间开销和 CPU 开销（以及浏览器解析压缩文件的开销）为代价，省下了一些传输过程中的时间开销。</p></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/blog/property/SSR.html" class="prev">
+          服务端渲染
+        </a></span> <span class="next"><a href="/blog/property/Performance.html">
+          Performance、LightHouse 与性能 API
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/blog/assets/js/22.0c9b437e.js" defer></script><script src="/blog/assets/js/app.607c1ba4.js" defer></script>
+  </body>
+</html>
